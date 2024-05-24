@@ -5,6 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Photography Portfolio</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+        main {
+            flex: 1;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            padding: 20px;
+        }
+        .grid-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        footer {
+            background-color: #f1f1f1;
+            text-align: center;
+            padding: 10px;
+            margin-top: auto;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -17,34 +45,37 @@
         </nav>
         <h1>showing photos from the archive</h1>
     </header>
-    <section id="about">
-        <h2>About Me</h2>
-        <p>samuel paparo. 20 years old. photography 2023-present </p>
-    </section>
-    <section id="gallery">
-        <h2>Gallery</h2>
-        <div class="grid-container">
-            <div class="grid-item"><img src="photo1.jpg" alt="Photo 1"></div>
-            <div class="grid-item"><img src="photo2.jpg" alt="Photo 2"></div>
-            <div class="grid-item"><img src="photo3.jpg" alt="Photo 3"></div>
-            <div class="grid-item"><img src="photo4.jpg" alt="Photo 4"></div>
-            <!-- Add more photos as needed -->
-        </div>
-    </section>
-    <section id="contact">
-        <h2>Contact</h2>
-        <form action="https://formspree.io/f/yourformid" method="POST">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-            <label for="message">Message:</label>
-            <textarea id="message" name="message" required></textarea>
-            <button type="submit">Send</button>
-        </form>
-    </section>
+    <main>
+        <section id="about">
+            <h2>About Me</h2>
+            <p>samuel paparo. 20 years old. photography 2023-present </p>
+        </section>
+        <section id="gallery">
+            <h2>Gallery</h2>
+            <div class="grid-container">
+                <div class="grid-item"><img src="photo1.jpg" alt="Photo 1"></div>
+                <div class="grid-item"><img src="photo2.jpg" alt="Photo 2"></div>
+                <div class="grid-item"><img src="photo3.jpg" alt="Photo 3"></div>
+                <div class="grid-item"><img src="photo4.jpg" alt="Photo 4"></div>
+                <!-- Add more photos as needed -->
+            </div>
+        </section>
+        <section id="contact">
+            <h2>Contact</h2>
+            <form action="https://formspree.io/f/yourformid" method="POST">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" required></textarea>
+                <button type="submit">Send</button>
+            </form>
+        </section>
+    </main>
     <footer>
-        <p>&copy; 2024 samuel paparo . All rights reserved.</p>
+        <p>&copy; 2024 samuel paparo. All rights reserved.</p>
     </footer>
 </body>
 </html>
+
