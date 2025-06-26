@@ -14,7 +14,7 @@ body {
   font-weight: 900;
   text-align: center;
   background-color: black;
-  padding: 0.3rem 0 1rem 0; 
+  padding: 0.3rem 0 1rem 0;
   z-index: 100;
   font-family: 'Arial Black', sans-serif;
   color: white;
@@ -255,39 +255,5 @@ footer .copyright-bar {
 
 .footer {
   display: none;
-} and my home.html : <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Samuel Paparo</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <script src="js/script.js" defer></script>
-</head>
-<body class="home-page">
+}
 
-  <!-- Titre maintenant collé en haut par CSS (position: fixed) -->
-  <h1 class="name-title">Samuel Paparo</h1>
-
-  <div class="header-wrapper">
-    <!-- Cette div ne sert plus pour le sticky -->
-    <div class="sticky-wrapper"></div>
-    <nav class="main-nav">
-      <a href="work.html">work</a>
-      <a href="about.html">about</a>
-      <a href="contact.html">contact</a>
-    </nav>
-  </div>
-
-  <main>
-    <div class="carousel-container">
-      <img id="carousel-img" class="carousel-img" src="" alt="carousel" />
-    </div>
-  </main>
-
-  <footer>
-    <div class="copyright-bar">
-      &copy; samuelpaparo.2025
-    </div>
-  </footer>
-</body>
-</html>
