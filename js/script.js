@@ -117,9 +117,9 @@ document.addEventListener('DOMContentLoaded', () => {
     window.location.href = 'home.html';
   });
 
-  // ✅ Spacebar also triggers enter (desktop only)
+  // Spacebar triggers enter button (desktop)
   document.addEventListener('keydown', (event) => {
-    if (event.code === 'Space') {
+    if (event.code === 'Space' || event.key === ' ') {
       event.preventDefault();
       enterBtn.click();
     }
@@ -231,4 +231,3 @@ if (isProjectPage()) {
     updateMainPhoto(0);
   }
 }
-

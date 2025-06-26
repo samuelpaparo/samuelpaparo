@@ -1,13 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Samuel Paparo</title>
-  <link rel="stylesheet" href="css/style.css">
-  <script src="js/script.js" defer></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    /* Full viewport splash container */
+    body.splash-page {
+      position: relative;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Splash background image */
+    .splash-img {
+      width: 100%;
+      height: 100vh;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* Enter button styles */
+    #enter-btn {
+      cursor: pointer;
+      user-select: none;
+      position: absolute; /* needed for moving */
+      padding: 10px 20px;
+      background-color: rgba(255,255,255,0.8);
+      color: #000;
+      font-weight: bold;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+      z-index: 10;
+      font-size: 18px;
+      touch-action: manipulation; /* better on touch devices */
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    #enter-btn:hover,
+    #enter-btn:focus {
+      background-color: rgba(255,255,255,1);
+      outline: none;
+    }
+  </style>
 </head>
 <body class="splash-page">
-  <img src="images/splash.jpg" alt="splash" class="splash-img">
-  <div id="enter-btn" class="enter-text">enter</div>
+  <img src="images/splash.jpg" alt="splash" class="splash-img" />
+  <div id="enter-btn" class="enter-text" tabindex="0">enter</div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const enterBtn = document.getElementById('enter-btn');
+      if (!enterBtn) return;
+
+      let vx = 2;
+      let vy = 2;
+
+      function moveButton() {
+        const parent = enterBtn.parentElement;
+        const parentRect = parent.getBoundingClientRect();
+        const btnRect = enterBtn.getBoundingClientRect();
+
+        let left = enterBtn.offsetLeft + vx;
+        let top = enterBtn.offsetTop + vy;
+
+        if (left + btnRect.width > parentRect.width || left < 0) vx = -vx;
+        if (top + btnRect.height > parentRect.height || top < 0) vy = -vy;
+
+        enterBtn.style.left = left + 'px';
+        enterBtn.style.top = top + 'px';
+
+        requestAnimationFrame(moveButton);
+      }
+
+      // Initialize random position inside viewport
+      enterBtn.style.position = 'absolute';
+      enterBtn.style.left = Math.random() * (enterBtn.parentElement.clientWidth - enterBtn.clientWidth) + 'px';
+      enterBtn.style.top = Math.random() * (enterBtn.parentElement.clientHeight - enterBtn.clientHeight) + 'px';
+
+      moveButton();
+
+      // Click handler: go to home page
+      enterBtn.addEventListener('click', () => {
+        window.location.href = 'home.html';
+      });
+
+      // Keyboard handler: space bar triggers click
+      document.addEventListener('keydown', (e) => {
+        if (e.code === 'Space' || e.key === ' ') {
+          e.preventDefault();
+          enterBtn.click();
+        }
+      });
+    });
+  </script>
 </body>
 </html>
