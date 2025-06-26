@@ -103,9 +103,23 @@ document.addEventListener('DOMContentLoaded', () => {
     enterBtn.style.top = Math.random() * (enterBtn.parentElement.clientHeight - enterBtn.clientHeight) + 'px';
     moveButton();
 
-    enterBtn.addEventListener('click', () => {
+    function goToHome() {
       window.location.href = 'home.html';
+    }
+
+    enterBtn.addEventListener('click', goToHome);
+
+    // Support Enter key (mobile and desktop)
+    document.addEventListener('keydown', (e) => {
+      const key = e.key;
+      if (key === 'Enter' || key === ' ') {
+        e.preventDefault(); // prevent scrolling or form submits
+        goToHome();
+      }
     });
+
+    // Support virtual keyboards that may send 'Enter' as 'submit' events
+    enterBtn.setAttribute('tabindex', '0'); // make it focusable for mobile keyboards
   }
 
   // Work page logic
@@ -172,7 +186,6 @@ function initProjectCarousel() {
 
   let currentIndex = 0;
 
-  // Load thumbnails
   for (let i = 1; i <= imagesData.count; i++) {
     const thumb = document.createElement('img');
     thumb.src = `${imagesData.folder}/${imagesData.prefix}${i}.jpg`;
