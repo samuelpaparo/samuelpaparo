@@ -109,6 +109,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     enterBtn.addEventListener('click', goToHome);
 
+    // Fix for iPhone / iPad tap not triggering 'click'
+    enterBtn.addEventListener('touchstart', (e) => {
+      e.preventDefault(); // avoid double events
+      goToHome();
+    });
+
     // Support Enter key (mobile and desktop)
     document.addEventListener('keydown', (e) => {
       const key = e.key;
