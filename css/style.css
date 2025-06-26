@@ -5,7 +5,7 @@ body {
   font-family: 'Times New Roman', serif;
 }
 
-/* Ajout spécifique pour que le titre reste collé en haut */
+/* Fixed top title */
 .name-title {
   position: fixed;
   top: 0;
@@ -14,7 +14,7 @@ body {
   font-weight: 900;
   text-align: center;
   background-color: black;
-  padding: 0.3rem 0 1rem 0; 
+  padding: 0.3rem 0 1rem 0;
   z-index: 100;
   font-family: 'Arial Black', sans-serif;
   color: white;
@@ -22,12 +22,12 @@ body {
   line-height: 1;
 }
 
-/* Pour éviter que le titre fixe ne cache le contenu */
 body.home-page {
   padding-top: 10rem;
   padding-bottom: 8rem;
 }
 
+/* Splash page */
 .splash-page {
   position: relative;
   height: 100vh;
@@ -42,14 +42,31 @@ body.home-page {
   z-index: -1;
 }
 
+/* ENTER TEXT - clickable */
 .enter-text {
-  font-size: 2rem;
+  font-size: 2.5rem;
   color: white;
   position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   cursor: pointer;
   z-index: 10;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 1rem 2rem;
+  border: 2px solid white;
+  border-radius: 5px;
+  user-select: none;
+  text-align: center;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
 }
 
+.enter-text:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Header wrapper */
 .header-wrapper {
   position: relative;
   z-index: 20;
@@ -57,8 +74,9 @@ body.home-page {
   padding-top: 0;
 }
 
+/* Not used */
 .sticky-wrapper {
-  display: none; /* plus utilisé car le titre est maintenant fixé par CSS */
+  display: none;
 }
 
 .main-nav {
@@ -75,7 +93,7 @@ body.home-page {
   font-weight: bold;
 }
 
-/* Carousel container */
+/* Carousel */
 .carousel-container {
   display: flex;
   justify-content: center;
@@ -162,6 +180,7 @@ footer .copyright-bar {
   z-index: 10;
 }
 
+/* Work page styles */
 .work-page header {
   position: sticky;
   top: 0;
@@ -255,4 +274,23 @@ footer .copyright-bar {
 
 .footer {
   display: none;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  .name-title {
+    font-size: 3rem;
+    padding: 0.5rem 0;
+  }
+
+  .enter-text {
+    font-size: 1.5rem;
+    padding: 0.7rem 1.5rem;
+  }
+
+  .main-nav {
+    flex-direction: column;
+    margin-top: 10rem;
+    gap: 1.5rem;
+  }
 }
