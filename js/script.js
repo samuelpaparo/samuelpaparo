@@ -42,7 +42,7 @@ function blinkImage(img, times, callback) {
     img.style.opacity = (img.style.opacity == '1' || img.style.opacity === '') ? '0' : '1';
     count++;
     if (count < times * 2) {
-      setTimeout(blink, 100);
+      setTimeout(blink, 100); // 100ms per half blink
     } else {
       callback();
     }
@@ -68,7 +68,9 @@ function rotateCarousel() {
 
   tempImg.onerror = () => {
     console.warn('Image failed to load:', newSrc);
+    // Remove missing image from array to avoid loop
     shuffledImages.splice(currentIndex, 1);
+    // Adjust index to stay in bounds
     currentIndex = currentIndex % shuffledImages.length;
     rotateCarousel();
   };
@@ -116,16 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
   enterBtn.addEventListener('click', () => {
     window.location.href = 'home.html';
   });
-
-  // Spacebar triggers enter button (desktop)
-  document.addEventListener('keydown', (event) => {
-    if (event.code === 'Space' || event.key === ' ') {
-      event.preventDefault();
-      enterBtn.click();
-    }
-  });
 });
-
 // Fixed name on work page: no special JS needed, CSS sticky handles it
 
 // Project image data
@@ -156,6 +149,7 @@ function isProjectPage() {
 }
 
 // --- WORK PAGE ---
+// On work page: clicking vignette opens project page
 if (isWorkPage()) {
   document.querySelectorAll('.project-vignette').forEach(vignette => {
     vignette.addEventListener('click', () => {
@@ -174,6 +168,7 @@ if (isProjectPage()) {
 
   const projectName = document.querySelector('.name-title').textContent.toLowerCase().replace(/[^a-z]/g, '');
 
+  // Fallback: find project key from URL if not exact match
   let projectKey = null;
   for (const key in projectImages) {
     if (window.location.pathname.includes(key)) {
@@ -183,7 +178,7 @@ if (isProjectPage()) {
   }
 
   if (!projectKey) {
-    projectKey = projectName;
+    projectKey = projectName; // fallback
   }
 
   const imagesData = projectImages[projectKey];
@@ -192,10 +187,11 @@ if (isProjectPage()) {
   } else {
     let currentIndex = 0;
 
+    // Load thumbnails
     for (let i = 1; i <= imagesData.count; i++) {
       const thumb = document.createElement('img');
-      thumb.src = `${imagesData.folder}/${imagesData.prefix}${i}.jpg`;
-      thumb.alt = `${imagesData.prefix} photo ${i}`;
+      thumb.src = ${imagesData.folder}/${imagesData.prefix}${i}.jpg;
+      thumb.alt = ${imagesData.prefix} photo ${i};
       thumb.dataset.index = i - 1;
       if (i === 1) thumb.classList.add('active');
       thumbnailBar.appendChild(thumb);
@@ -205,12 +201,13 @@ if (isProjectPage()) {
       if (index < 0) index = imagesData.count - 1;
       if (index >= imagesData.count) index = 0;
       currentIndex = index;
-      mainPhoto.src = `${imagesData.folder}/${imagesData.prefix}${currentIndex + 1}.jpg`;
+      mainPhoto.src = ${imagesData.folder}/${imagesData.prefix}${currentIndex + 1}.jpg;
 
+      // update active thumbnail
       thumbnailBar.querySelectorAll('img').forEach(img => {
         img.classList.remove('active');
       });
-      thumbnailBar.querySelector(`img[data-index="${currentIndex}"]`).classList.add('active');
+      thumbnailBar.querySelector(img[data-index="${currentIndex}"]).classList.add('active');
     }
 
     arrowLeft.addEventListener('click', () => {
@@ -228,6 +225,7 @@ if (isProjectPage()) {
       }
     });
 
+    // Initialize
     updateMainPhoto(0);
   }
 }
