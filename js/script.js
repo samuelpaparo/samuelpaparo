@@ -160,9 +160,16 @@ function isProjectPage() {
 // ------------------------------
 
 const projectImages = {
-  polyptychum: { count: 5, prefix: 'polyptychum', folder: 'images' },
+  polyptychum: { count: 4, prefix: 'polyptychum', folder: 'images' },
   istanbul: { count: 26, prefix: 'istanbul', folder: 'images' },
-  gardiensdelart: { count: 20, prefix: 'gardiensdelart', folder: 'images' }
+  gardiensdelart: { count: 9, prefix: 'gardiensdelart', folder: 'images' },
+  insidebollards: { count: 13, prefix: 'insidebollards', folder: 'images' },
+  visionindirecte: { count: 26, prefix: 'visionindirecte', folder: 'images' },
+  bulgaria: { count: 39, prefix: 'bulgaria', folder: 'images' },
+  croatia: { count: 56, prefix: 'croatia', folder: 'images' },
+  flora: { count: 9, prefix: 'flora', folder: 'images' },
+  fragments: { count: 3, prefix: 'fragments', folder: 'images' },
+
 };
 
 function initProjectCarousel() {
@@ -170,6 +177,12 @@ function initProjectCarousel() {
   const thumbnailBar = document.getElementById('thumbnail-bar');
   const arrowLeft = document.getElementById('arrow-left');
   const arrowRight = document.getElementById('arrow-right');
+  // Keyboard arrow support
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') updateMainPhoto(currentIndex - 1);
+    if (e.key === 'ArrowRight') updateMainPhoto(currentIndex + 1);
+  });
+
 
   // Determine project key from URL or title
   const projectName = document.querySelector('.name-title')?.textContent.toLowerCase().replace(/[^a-z]/g, '');
