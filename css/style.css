@@ -235,11 +235,12 @@ footer .copyright-bar {
 
 .carousel-nav {
   color: white;
-  font-size: 2rem;
+  font-size: 3rem;
   cursor: pointer;
   user-select: none;
-  padding: 0 1rem;
-  line-height: 1;
+  width: 10vw;
+  min-width: 60px;
+  height: 75vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -256,4 +257,5 @@ footer .copyright-bar {
 .footer {
   display: none;
 }
+
 

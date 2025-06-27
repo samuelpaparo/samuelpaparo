@@ -111,21 +111,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fix for iPhone / iPad tap not triggering 'click'
     enterBtn.addEventListener('touchstart', (e) => {
-      e.preventDefault(); // avoid double events
+      e.preventDefault();
       goToHome();
     });
 
-    // Support Enter key (mobile and desktop)
+    // Support Enter and Space keys (mobile and desktop)
     document.addEventListener('keydown', (e) => {
       const key = e.key;
       if (key === 'Enter' || key === ' ') {
-        e.preventDefault(); // prevent scrolling or form submits
+        e.preventDefault();
         goToHome();
       }
     });
 
-    // Support virtual keyboards that may send 'Enter' as 'submit' events
-    enterBtn.setAttribute('tabindex', '0'); // make it focusable for mobile keyboards
+    enterBtn.setAttribute('tabindex', '0'); // focusable for keyboard and virtual keyboards
   }
 
   // Work page logic
@@ -172,6 +171,7 @@ function initProjectCarousel() {
   const arrowLeft = document.getElementById('arrow-left');
   const arrowRight = document.getElementById('arrow-right');
 
+  // Determine project key from URL or title
   const projectName = document.querySelector('.name-title')?.textContent.toLowerCase().replace(/[^a-z]/g, '');
   let projectKey = null;
 
@@ -181,10 +181,9 @@ function initProjectCarousel() {
       break;
     }
   }
-
   if (!projectKey) projectKey = projectName;
-  const imagesData = projectImages[projectKey];
 
+  const imagesData = projectImages[projectKey];
   if (!imagesData) {
     console.error('No image data found for project:', projectKey);
     return;
