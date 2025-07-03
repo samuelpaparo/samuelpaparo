@@ -10,7 +10,6 @@ body {
   position: fixed;
   top: 0;
   width: 100%;
-  font-size: 8rem;
   font-weight: 900;
   text-align: center;
   background-color: black;
@@ -20,6 +19,13 @@ body {
   color: white;
   margin: 0;
   line-height: 1;
+  /* taille par défaut (peut être modifiée par pages spécifiques) */
+  font-size: 4rem;
+}
+
+/* Taille du titre pour la page des projets uniquement */
+body.work-page .name-title {
+  font-size: 4rem;
 }
 
 /* Pour éviter que le titre fixe ne cache le contenu */
@@ -94,6 +100,7 @@ body.home-page {
 
 .page-content {
   padding: 3rem;
+  padding-bottom: 12rem; /* ajoute cet espace en bas */
   max-width: 800px;
   margin: auto;
 }
@@ -139,13 +146,25 @@ body.home-page {
   background-color: #666;
 }
 
+/* Bouton retour fixé en bas et centré */
 .back-btn {
-  display: block;
-  text-align: center;
-  margin-top: 3rem;
-  font-size: 4rem;
+  position: fixed;
+  bottom: 1.55rem;
+  left: 8%;
+  transform: translateX(-50%);
+  font-size: 2rem;
   color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Arial Black', sans-serif;
+  user-select: none;
+  z-index: 1000;
   text-decoration: underline;
+}
+
+.back-btn:hover {
+  color: gray;
 }
 
 footer .copyright-bar {
@@ -169,14 +188,6 @@ footer .copyright-bar {
   z-index: 10;
   padding: 1rem 0;
   border-bottom: 1px solid gray;
-}
-
-.work-page .name-title {
-  font-size: 4rem;
-  margin: 0;
-  color: white;
-  font-family: 'Arial Black', sans-serif;
-  user-select: none;
 }
 
 .work-page .main-nav {
@@ -257,5 +268,27 @@ footer .copyright-bar {
 .footer {
   display: none;
 }
+
+.hover-image-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.hover-image-wrapper img.hover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.hover-image-wrapper:hover img.hover {
+  opacity: 1;
+}
+
+.hover-image-wrapper:hover img.default {
+  opacity: 0;
+}
+
 
 

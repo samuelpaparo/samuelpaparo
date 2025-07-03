@@ -108,14 +108,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     enterBtn.addEventListener('click', goToHome);
-
-    // Fix for iPhone / iPad tap not triggering 'click'
     enterBtn.addEventListener('touchstart', (e) => {
       e.preventDefault();
       goToHome();
     });
 
-    // Support Enter and Space keys (mobile and desktop)
     document.addEventListener('keydown', (e) => {
       const key = e.key;
       if (key === 'Enter' || key === ' ') {
@@ -124,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    enterBtn.setAttribute('tabindex', '0'); // focusable for keyboard and virtual keyboards
+    enterBtn.setAttribute('tabindex', '0');
   }
 
   // Work page logic
@@ -169,22 +166,16 @@ const projectImages = {
   croatia: { count: 56, prefix: 'croatia', folder: 'images' },
   flora: { count: 9, prefix: 'flora', folder: 'images' },
   fragments: { count: 3, prefix: 'fragments', folder: 'images' },
-
 };
 
 function initProjectCarousel() {
-  const mainPhoto = document.getElementById('main-photo');
+  const mainPhoto = document.getElementById('main-photo'); // fallback
+  const mainPhotoDefault = document.getElementById('main-photo-default');
+  const mainPhotoHover = document.getElementById('main-photo-hover');
   const thumbnailBar = document.getElementById('thumbnail-bar');
   const arrowLeft = document.getElementById('arrow-left');
   const arrowRight = document.getElementById('arrow-right');
-  // Keyboard arrow support
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft') updateMainPhoto(currentIndex - 1);
-    if (e.key === 'ArrowRight') updateMainPhoto(currentIndex + 1);
-  });
 
-
-  // Determine project key from URL or title
   const projectName = document.querySelector('.name-title')?.textContent.toLowerCase().replace(/[^a-z]/g, '');
   let projectKey = null;
 
@@ -218,7 +209,14 @@ function initProjectCarousel() {
     if (index >= imagesData.count) index = 0;
     currentIndex = index;
 
-    mainPhoto.src = `${imagesData.folder}/${imagesData.prefix}${currentIndex + 1}.jpg`;
+    const basePath = `${imagesData.folder}/${imagesData.prefix}${currentIndex + 1}`;
+
+    if (mainPhotoDefault && mainPhotoHover) {
+      mainPhotoDefault.src = `${basePath}.jpg`;
+      mainPhotoHover.src = `${basePath}_hover.jpg`;
+    } else if (mainPhoto) {
+      mainPhoto.src = `${basePath}.jpg`;
+    }
 
     thumbnailBar.querySelectorAll('img').forEach(img => img.classList.remove('active'));
     const activeThumb = thumbnailBar.querySelector(`img[data-index="${currentIndex}"]`);
@@ -227,6 +225,7 @@ function initProjectCarousel() {
 
   arrowLeft?.addEventListener('click', () => updateMainPhoto(currentIndex - 1));
   arrowRight?.addEventListener('click', () => updateMainPhoto(currentIndex + 1));
+
   thumbnailBar?.addEventListener('click', e => {
     if (e.target.tagName === 'IMG') {
       const idx = parseInt(e.target.dataset.index, 10);
@@ -234,6 +233,12 @@ function initProjectCarousel() {
     }
   });
 
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') updateMainPhoto(currentIndex - 1);
+    if (e.key === 'ArrowRight') updateMainPhoto(currentIndex + 1);
+  });
+
   updateMainPhoto(0);
 }
+
 
