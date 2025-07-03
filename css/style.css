@@ -19,8 +19,20 @@ body {
   color: white;
   margin: 0;
   line-height: 1;
-  /* taille par défaut (peut être modifiée par pages spécifiques) */
   font-size: 4rem;
+}
+
+/* Style du lien dans le titre */
+.name-title a {
+  color: white;
+  text-decoration: none;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+}
+
+.name-title a:hover {
+  color: gray;
 }
 
 /* Taille du titre pour la page des projets uniquement */
@@ -64,7 +76,7 @@ body.home-page {
 }
 
 .sticky-wrapper {
-  display: none; /* plus utilisé car le titre est maintenant fixé par CSS */
+  display: none;
 }
 
 .main-nav {
@@ -81,7 +93,6 @@ body.home-page {
   font-weight: bold;
 }
 
-/* Carousel container */
 .carousel-container {
   display: flex;
   justify-content: center;
@@ -100,7 +111,7 @@ body.home-page {
 
 .page-content {
   padding: 3rem;
-  padding-bottom: 12rem; /* ajoute cet espace en bas */
+  padding-bottom: 12rem;
   max-width: 800px;
   margin: auto;
 }
@@ -146,7 +157,6 @@ body.home-page {
   background-color: #666;
 }
 
-/* Bouton retour fixé en bas et centré */
 .back-btn {
   position: fixed;
   bottom: 1.55rem;
