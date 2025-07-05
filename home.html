@@ -7,19 +7,20 @@
   <script src="js/script.js" defer></script>
 </head>
 <body class="home-page">
+
   <!-- Fixed title -->
   <h1 class="name-title"><a href="index.html">Samuel Paparo</a></h1>
 
   <div class="header-wrapper">
     <div class="sticky-wrapper"></div>
 
-    <!-- Instagram icon moved inside nav -->
+    <!-- Navigation with Instagram icon -->
     <nav class="main-nav">
       <a href="work.html">work</a>
       <a href="about.html">about</a>
       <a href="contact.html">contact</a>
-      <a href="https://www.instagram.com/samuel_paparo_" target="_blank" rel="noopener" class="instagram-link">
-        <img src="instagram_icon.png" alt="Instagram" style="width:24px; height:24px; vertical-align: middle;">
+      <a href="https://www.instagram.com/samuel_paparo_" target="_blank" rel="noopener">
+        <img src="instagram_icon.png" alt="Instagram" style="width:18px; height:18px; vertical-align: middle;">
       </a>
     </nav>
   </div>
@@ -30,14 +31,50 @@
     </div>
   </main>
 
+  <!-- Footer with play button -->
   <footer>
-    <div class="copyright-bar">
-      © work samuelpaparo.2025 / © music: "Ah Blue Jelly" by Free the Guinea Pig
+    <div class="copyright-bar" style="display: flex; align-items: center; gap: 10px; justify-content: center; flex-wrap: wrap;">
+      <span>© work samuelpaparo.2025 / © music: "Ah Blue Jelly" by Free the Guinea Pig</span>
+      <button id="play-music" style="padding: 4px 8px; font-size: 14px; cursor: pointer;">
+        ▶ play
+      </button>
     </div>
   </footer>
 
-  <!-- Music iframe (unchanged) -->
-  <iframe src="music.html" allow="autoplay" style="display: none;"></iframe>
+  <!-- Hidden audio element -->
+  <audio id="bg-audio" loop>
+    <source src="music.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Script to handle playback -->
+  <script>
+    const playBtn = document.getElementById('play-music');
+    const audio = document.getElementById('bg-audio');
+
+    // Toggle play/pause
+    playBtn.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play().then(() => {
+          playBtn.textContent = '⏸ pause';
+        }).catch(err => console.log('Playback blocked:', err));
+      } else {
+        audio.pause();
+        playBtn.textContent = '▶ play';
+      }
+    });
+
+    // Autoplay if arriving from index.html
+    if (sessionStorage.getItem('fromIndex') === 'true') {
+      sessionStorage.removeItem('fromIndex');
+      // Simulate user click to enable autoplay
+      setTimeout(() => {
+        playBtn.click();
+      }, 300);
+    }
+  </script>
+
 </body>
 </html>
+
 

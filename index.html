@@ -9,5 +9,14 @@
 <body class="splash-page">
   <img src="images/splash.jpg" alt="splash" class="splash-img" />
   <div id="enter-btn" class="enter-text">enter</div>
+
+  <script>
+    document.getElementById('enter-btn').addEventListener('click', () => {
+      // Mark that the user is arriving from index
+      sessionStorage.setItem('fromIndex', 'true');
+      // Redirect to home.html
+      window.location.href = 'home.html';
+    });
+  </script>
 </body>
 </html>
