@@ -299,6 +299,15 @@ footer .copyright-bar {
 .hover-image-wrapper:hover img.default {
   opacity: 0;
 }
+.main-nav a {
+  margin-right: 12px;
+  text-decoration: none;
+}
+
+.main-nav a:last-child img {
+  vertical-align: middle;
+  margin-left: -2px;
+}
 
 
 
