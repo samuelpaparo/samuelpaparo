@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8" />
+  <title>Donate - Samuel Paparo</title>
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Partie 1 : script PayPal SDK -->
+  <script 
+    src="https://www.paypal.com/sdk/js?client-id=BAA8MKjo8jRu7vH_VnaeJXGMNgXSceHxDqhQ4CgB2HnyNGCn6s-bCDl3AO6NW1zeiDCbFOZl63QHejBQcY&components=hosted-buttons&disable-funding=venmo&currency=EUR">
+  </script>
+
+</head>
+<body class="donate-page">
+
+  <!-- Titre fixe -->
+  <h1 class="name-title"><a href="index.html">Samuel Paparo</a></h1>
+
+  <!-- Navigation -->
+  <div class="header-wrapper">
+    <div class="sticky-wrapper"></div>
+    <nav class="main-nav">
+      <a href="work.html">work</a>
+      <a href="about.html">about</a>
+      <a href="contact.html">contact</a>
+      <a href="https://www.instagram.com/samuel_paparo_" target="_blank" rel="noopener">
+        <img src="instagram_icon.png" alt="Instagram" style="width:18px; height:18px; vertical-align: middle;">
+      </a>
+    </nav>
+  </div>
+
+  <!-- Contenu principal -->
+  <main>
+    <div class="page-content">
+      <section class="donation-section">
+        <h2>Support my work</h2>
+        <p>If yo would like to support my creative projects, you can make a donation:</p>
+
+        <!-- Bouton PayPal hébergé -->
+        <div id="paypal-container-2DFAAASHXH256"></div>
+        <script>
+          paypal.HostedButtons({
+            hostedButtonId: "2DFAAASHXH256",
+          }).render("#paypal-container-2DFAAASHXH256")
+        </script>
+
+        <!-- QR code optionnel -->
+        <div class="qr-container">
+          <p>Or scan the code with your phone:</p>
+          <img src="images/donation_qr.png" alt="Donation QR code" class="qr-code">
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="copyright-bar">
+      © work samuelpaparo.2025
+    </div>
+  </footer>
+
+</body>
+</html>
+
