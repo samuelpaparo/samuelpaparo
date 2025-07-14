@@ -164,6 +164,7 @@ const projectImages = {
   visionindirecte: { count: 26, prefix: 'visionindirecte', folder: 'images' },
   bulgaria: { count: 39, prefix: 'bulgaria', folder: 'images' },
   croatia: { count: 56, prefix: 'croatia', folder: 'images' },
+  athos: { count: 23, prefix: 'athos', folder: 'athos' },
   flora: { count: 9, prefix: 'flora', folder: 'images' },
   fragments: { count: 3, prefix: 'fragments', folder: 'images' },
 };
