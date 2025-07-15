@@ -157,16 +157,16 @@ function isProjectPage() {
 // ------------------------------
 
 const projectImages = {
-  polyptychum: { count: 4, prefix: 'polyptychum', folder: 'images' },
-  istanbul: { count: 26, prefix: 'istanbul', folder: 'images' },
-  gardiensdelart: { count: 9, prefix: 'gardiensdelart', folder: 'images' },
-  insidebollards: { count: 13, prefix: 'insidebollards', folder: 'images' },
-  visionindirecte: { count: 26, prefix: 'visionindirecte', folder: 'images' },
-  bulgaria: { count: 39, prefix: 'bulgaria', folder: 'images' },
-  croatia: { count: 56, prefix: 'croatia', folder: 'images' },
+  polyptychum: { count: 4, prefix: 'polyptychum', folder: 'polyptychum' },
+  istanbul: { count: 26, prefix: 'istanbul', folder: 'istanbul' },
+  gardiensdelart: { count: 9, prefix: 'gardiensdelart', folder: 'gardiensdelart' },
+  insidebollards: { count: 13, prefix: 'insidebollards', folder: 'insidebollards' },
+  visionindirecte: { count: 26, prefix: 'visionindirecte', folder: 'visionindirecte' },
+  bulgaria: { count: 39, prefix: 'bulgaria', folder: 'bulgaria' },
+  croatia: { count: 56, prefix: 'croatia', folder: 'croatia' },
   athos: { count: 23, prefix: 'athos', folder: 'athos' },
-  flora: { count: 9, prefix: 'flora', folder: 'images' },
-  fragments: { count: 3, prefix: 'fragments', folder: 'images' },
+  flora: { count: 9, prefix: 'flora', folder: 'flora' },
+  fragments: { count: 3, prefix: 'fragments', folder: 'fragments' },
 };
 
 function initProjectCarousel() {
