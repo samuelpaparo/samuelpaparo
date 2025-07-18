@@ -165,6 +165,8 @@ const projectImages = {
   bulgaria: { count: 39, prefix: 'bulgaria', folder: 'bulgaria' },
   croatia: { count: 56, prefix: 'croatia', folder: 'croatia' },
   athos: { count: 23, prefix: 'athos', folder: 'athos' },
+  london: { count: 23, prefix: 'London', folder: 'london' },
+  moroccannights: { count: 23, prefix: 'moroccannights', folder: 'moroccannights' },
   flora: { count: 9, prefix: 'flora', folder: 'flora' },
   fragments: { count: 3, prefix: 'fragments', folder: 'fragments' },
 };
