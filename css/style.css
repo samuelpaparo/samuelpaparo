@@ -15,7 +15,7 @@ body {
   background-color: black;
   padding: 0.3rem 0 1rem 0;
   z-index: 100;
-  font-family: 'Arial Black', sans-serif;
+  font-family: 'Times New Roman', serif;
   color: white;
   margin: 0;
   line-height: 1;
@@ -167,7 +167,7 @@ body.home-page {
   background: none;
   border: none;
   cursor: pointer;
-  font-family: 'Arial Black', sans-serif;
+  font-family: 'Times New Roman', serif;
   user-select: none;
   z-index: 1000;
   text-decoration: underline;
@@ -186,7 +186,7 @@ footer .copyright-bar {
   position: fixed;
   bottom: 0;
   width: 100%;
-  font-family: 'Arial Black', sans-serif;
+  font-family: 'Times New Roman', serif;
   letter-spacing: 0.05em;
   z-index: 10;
 }
@@ -376,7 +376,7 @@ footer .copyright-bar {
   position: fixed;
   bottom: 0;
   width: 100%;
-  font-family: 'Arial Black', sans-serif;
+  font-family: 'Times New Roman', serif;
   letter-spacing: 0.05em;
   z-index: 10;
 }
