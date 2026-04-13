@@ -1,22 +1,860 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Samuel Paparo</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <script src="js/script.js" defer></script>
-</head>
-<body class="splash-page">
-  <img src="images/splash.jpg" alt="splash" class="splash-img" />
-  <div id="enter-btn" class="enter-text">enter</div>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Samuel Paparo</title>
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
-  <script>
-    document.getElementById('enter-btn').addEventListener('click', () => {
-      // Mark that the user is arriving from index
-      sessionStorage.setItem('fromIndex', 'true');
-      // Redirect to home.html
-      window.location.href = 'home.html';
-    });
-  </script>
+:root {
+  --bg:   #000;
+  --fg:   #d8d8d8;
+  --dim:  #555;
+  --faint:#1a1a1a;
+  --hdr:  80px;
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'Times New Roman', Times, serif;
+  overflow: hidden;
+}
+
+/* ═══════════════════════════════
+   SPLASH
+═══════════════════════════════ */
+#splash {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  overflow: hidden;
+  background: #000;
+}
+#splash-img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0.72;
+}
+#enter-btn {
+  position: absolute;
+  font-size: 0.72rem;
+  font-style: normal;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 400;
+  color: #fff;
+  cursor: pointer;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  user-select: none;
+  padding: 22px 36px;
+  transition: color 0.2s;
+  white-space: nowrap;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+#enter-btn:hover { color: #aaa; }
+#splash.out {
+  animation: splashOut 0.6s ease forwards;
+}
+@keyframes splashOut {
+  to { opacity: 0; pointer-events: none; }
+}
+
+/* ═══════════════════════════════
+   SITE (hidden until enter)
+═══════════════════════════════ */
+#site {
+  position: fixed;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.7s 0.3s;
+}
+#site.on {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* ═══════════════════════════════
+   HEADER
+═══════════════════════════════ */
+#hdr {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--hdr);
+  z-index: 200;
+  background: var(--bg);
+  border-bottom: 1px solid #111;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+}
+#logo {
+  font-size: 2.5rem;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--fg);
+  cursor: pointer;
+  user-select: none;
+  letter-spacing: 0.01em;
+  transition: color 0.25s;
+}
+#logo:hover { color: #777; }
+
+#nav {
+  display: flex;
+  gap: 2.6rem;
+  align-items: center;
+}
+#nav a {
+  font-size: 0.7rem;
+  color: var(--dim);
+  text-decoration: none;
+  letter-spacing: 0.18em;
+  text-transform: lowercase;
+  transition: color 0.18s;
+}
+#nav a:hover, #nav a.on { color: var(--fg); }
+
+/* ═══════════════════════════════
+   VIEWS
+═══════════════════════════════ */
+.view {
+  position: fixed;
+  top: var(--hdr);
+  left: 0; right: 0; bottom: 0;
+  display: none;
+  overflow: hidden;
+}
+.view.on { display: block; }
+
+/* ═══════════════════════════════
+   WORK GRID
+═══════════════════════════════ */
+#view-work {
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: #222 transparent;
+}
+#view-work::-webkit-scrollbar { width: 4px; }
+#view-work::-webkit-scrollbar-thumb { background: #222; }
+
+#grid {
+  width: 100%;
+  padding: 80px 50px 180px;
+  box-sizing: border-box;
+}
+
+.card {
+  display: block;
+  margin-bottom: 100px;
+  cursor: pointer;
+  position: relative;
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+  display: block;
+  opacity: 0.86;
+  transition: opacity 0.3s, transform 0.5s ease;
+}
+.card:hover img {
+  opacity: 1;
+  transform: scale(1.01);
+}
+
+.card img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.3s, transform 0.5s ease;
+  opacity: 0.82;
+}
+.card:hover img {
+  opacity: 1;
+  transform: scale(1.02);
+}
+
+/* Caption below image */
+.card-label {
+  position: static;
+  padding: 10px 0 0;
+  background: none;
+  opacity: 1;
+  display: block;
+  transition: none;
+}
+.card-label span {
+  font-size: 0.78rem;
+  font-style: italic;
+  color: #777;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  letter-spacing: 0.06em;
+  line-height: 1.4;
+  transition: color 0.2s;
+}
+.card:hover .card-label span { color: #bbb; }
+
+/* Placeholder card (no photos yet) */
+.card.empty .empty-box {
+  width: 100%;
+  height: 240px;
+  background: #080808;
+  border: 1px solid #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.card.empty .empty-box small {
+  color: #222;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  font-style: normal;
+}
+.card.empty .card-label span { color: #333; }
+
+/* ═══════════════════════════════
+   PROJECT VIEWER
+═══════════════════════════════ */
+#view-viewer {
+  background: var(--bg);
+}
+#view-viewer.on {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Back bar */
+#viewer-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 22px;
+  height: 44px;
+  border-bottom: 1px solid #111;
+  flex-shrink: 0;
+}
+#btn-back {
+  background: none;
+  border: none;
+  color: var(--dim);
+  font-family: inherit;
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  cursor: pointer;
+  transition: color 0.2s;
+  padding: 0;
+}
+#btn-back:hover { color: var(--fg); }
+#viewer-title {
+  font-size: 0.7rem;
+  font-style: italic;
+  color: #383838;
+  letter-spacing: 0.12em;
+}
+#viewer-counter {
+  font-size: 0.65rem;
+  color: #2a2a2a;
+  letter-spacing: 0.12em;
+  min-width: 60px;
+  text-align: right;
+}
+
+/* Image area */
+#viewer-body {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+#vimg-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px 50px;
+}
+#vimg {
+  max-width: 100%; max-height: 100%;
+  width: auto; height: auto;
+  object-fit: contain;
+  display: block;
+  opacity: 0;
+  transition: opacity 0.28s;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+#vimg.vis   { opacity: 1; }
+#vimg.fade  { opacity: 0; transition: opacity 0.13s; }
+
+#vspinner {
+  position: absolute;
+  width: 16px; height: 16px;
+  border: 1px solid #1c1c1c;
+  border-top-color: #444;
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+  display: none;
+}
+#vspinner.on { display: block; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+#hit-l, #hit-r {
+  position: absolute; top: 0; bottom: 0;
+  width: 44%; z-index: 10;
+}
+#hit-l { left: 0; cursor: w-resize; }
+#hit-r { right: 0; cursor: e-resize; }
+
+#arr-l, #arr-r {
+  position: absolute; top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.1rem;
+  color: transparent;
+  pointer-events: none;
+  transition: color 0.22s;
+  z-index: 20; user-select: none;
+}
+#arr-l { left: 16px; }
+#arr-r { right: 16px; }
+#viewer-body:hover #arr-l,
+#viewer-body:hover #arr-r { color: #2c2c2c; }
+
+/* ═══════════════════════════════
+   ABOUT
+═══════════════════════════════ */
+#view-about.on {
+  display: block;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #1c1c1c transparent;
+}
+#view-about.on::-webkit-scrollbar { width: 3px; }
+#view-about.on::-webkit-scrollbar-thumb { background: #1c1c1c; }
+
+#about-inner {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 3.8rem 2rem 5rem;
+}
+#about-inner h2 {
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 400;
+  font-style: normal;
+  color: var(--dim);
+  margin-bottom: 2.6rem;
+}
+#about-inner p {
+  font-size: 0.96rem;
+  line-height: 2;
+  color: #6e6e6e;
+  margin-bottom: 0.3rem;
+}
+
+/* ═══════════════════════════════
+   CONTACT
+═══════════════════════════════ */
+#view-contact.on {
+  display: block;
+  overflow-y: auto;
+}
+#contact-inner {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 3.8rem 2rem 5rem;
+}
+#contact-inner h2 {
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 400;
+  font-style: normal;
+  color: var(--dim);
+  margin-bottom: 2.6rem;
+}
+.cf { display: flex; flex-direction: column; gap: 1.4rem; }
+.cf label {
+  display: flex; flex-direction: column; gap: 0.38rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.16em;
+  text-transform: lowercase;
+  color: var(--dim);
+}
+.cf input, .cf textarea {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #1d1d1d;
+  color: var(--fg);
+  font-family: 'Times New Roman', serif;
+  font-size: 0.94rem;
+  padding: 0.32rem 0;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.cf input:focus, .cf textarea:focus { border-color: #444; }
+.cf textarea { resize: none; height: 72px; }
+.cf-send {
+  align-self: flex-start;
+  background: none;
+  border: 1px solid #1d1d1d;
+  color: var(--dim);
+  font-family: inherit;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: lowercase;
+  padding: 0.52rem 1.5rem;
+  cursor: pointer;
+  margin-top: 0.4rem;
+  transition: color 0.18s, border-color 0.18s;
+}
+.cf-send:hover { color: var(--fg); border-color: #444; }
+
+/* ═══════════════════════════════
+   MUSIC BUTTON
+═══════════════════════════════ */
+#music-btn {
+  position: fixed;
+  bottom: 18px; left: 20px;
+  z-index: 500;
+  background: none; border: none;
+  font-family: inherit;
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  color: #1e1e1e;
+  cursor: pointer;
+  transition: color 0.2s;
+  user-select: none;
+}
+#music-btn:hover, #music-btn.on { color: #3a3a3a; }
+
+/* ═══════════════════════════════
+   MOBILE
+═══════════════════════════════ */
+@media (max-width: 700px) {
+  :root { --hdr: 70px; }
+  #logo { font-size: 1.9rem; }
+  #nav { gap: 1.6rem; }
+  #nav a { font-size: 0.66rem; }
+  #grid { padding: 28px 16px 80px; }
+  .card { margin-bottom: 50px; margin-left: 0 !important; max-width: 85% !important; }
+  #vimg-wrap { padding: 12px 36px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ SPLASH ══ -->
+<div id="splash">
+  <img id="splash-img" src="images/splash.jpg" alt="">
+  <div id="enter-btn">enter</div>
+</div>
+
+<!-- ══ SITE ══ -->
+<div id="site">
+
+  <!-- HEADER -->
+  <header id="hdr">
+    <div id="logo" onclick="goSplash()">Samuel Paparo</div>
+    <nav id="nav">
+      <a href="#" data-v="work"    onclick="gv('work');return false">work</a>
+      <a href="#" data-v="about"   onclick="gv('about');return false">about</a>
+      <a href="#" data-v="contact" onclick="gv('contact');return false">contact</a>
+      <a href="https://www.instagram.com/samuel_paparo_" target="_blank" rel="noopener">instagram</a>
+    </nav>
+  </header>
+
+  <!-- WORK GRID -->
+  <div id="view-work" class="view on"></div>
+
+  <!-- PROJECT VIEWER -->
+  <div id="view-viewer" class="view">
+    <div id="viewer-top">
+      <button id="btn-back" onclick="gv('work')">&#8592; back</button>
+      <div id="viewer-title"></div>
+      <div id="viewer-counter"></div>
+    </div>
+    <div id="viewer-body">
+      <div id="vimg-wrap"><img id="vimg" src="" alt="" draggable="false"></div>
+      <div id="vspinner"></div>
+      <div id="hit-l"></div>
+      <div id="hit-r"></div>
+      <div id="arr-l">&#8592;</div>
+      <div id="arr-r">&#8594;</div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <div id="view-about" class="view">
+    <div id="about-inner">
+      <h2>de me ipso</h2>
+      <p>samuel paparo is an artist and photographer born in 2004 in sofia, bulgaria. he lives and works in paris, france.</p>
+      <p>his practice combines street and documentary photography with a broader reflection on language, culture, and identity.</p>
+      <p>drawing from his background, he focuses on<br>
+everyday postures,<br>
+marginal spaces,<br>
+and quiet social dynamics.</p>
+      <p>his images often explore what goes unnoticed: people sitting in silence, gestures of detachment, rural emptiness, and the subtle codes of bodies in public space...</p>
+      <p>he developed a broad intellectual foundation by studying<br>
+philosophy,<br>
+history,<br>
+geography,<br>
+ancient languages,<br>
+and literature,<br>
+while simultaneously pursuing<br>
+art history,<br>
+sculpture,<br>
+and photography.</p>
+      <p>his training included courses in<br>
+sculpture<br>
+and drawing.</p>
+      <p>this multidisciplinary approach shaped a way of seeing that combines analytical rigor and intuitive observation, grounded in direct experience rather than commentary.</p>
+      <p>his work is often shot in bulgaria, where he returns regularly.</p>
+      <p>the themes that come back<br>
+solitude,<br>
+repetition,<br>
+informal arrangements of people and objects<br>
+reflect a sensitivity to rhythm and social texture.<br>
+recurring visual elements include<br>
+horses,<br>
+motorcycles,<br>
+people waiting,<br>
+and spaces that seem in-between.</p>
+      <p>he self-publishes photozines and develops long-term series that combine image, fieldwork, and language.</p>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div id="view-contact" class="view">
+    <div id="contact-inner">
+      <h2>contact</h2>
+      <form class="cf" action="https://formspree.io/f/mdkzpkdd" method="POST">
+        <label>name     <input type="text"  name="name"     required></label>
+        <label>email    <input type="email" name="_replyto" required></label>
+        <label>subject  <input type="text"  name="subject"  required></label>
+        <label>message  <textarea           name="message"  required></textarea></label>
+        <button type="submit" class="cf-send">send</button>
+      </form>
+    </div>
+  </div>
+
+</div><!-- /site -->
+
+<!-- MUSIC -->
+<button id="music-btn">&#9654; music</button>
+<audio id="audio" loop><source src="music.mp3" type="audio/mpeg"></audio>
+
+<script>
+// ════════════════════════════════════════════════
+// PROJECT DATA
+// ════════════════════════════════════════════════
+// Each project: key, label, thumb (cover for grid), size class(es), imgs array
+// ml = margin-left (%), maxW = card width (%), aspect = CSS aspect-ratio
+const PROJECTS = [
+  { key:'athos',
+    label:'Athos',
+    thumb:'athos/Athosmain.jpg',
+    aspect:'3/2', maxW:40, ml:5,
+    imgs:["athos/Athos1.jpg","athos/Athos2.jpg","athos/Athos3.jpg","athos/Athos4.jpg","athos/Athos5.jpg","athos/Athos6.jpg","athos/Athos8.jpg","athos/Athos9.jpg","athos/Athos10.jpg","athos/Athos11.jpg","athos/Athos12.jpg","athos/Athos14.jpg","athos/Athos15.jpg","athos/Athos16.jpg","athos/Athos17.jpg","athos/Athos18.jpg","athos/Athos19.jpg","athos/Athos20.jpg","athos/Athos21.jpg","athos/Athos22.jpg","athos/Athos23.jpg"] },
+
+  { key:'kenya',
+    label:'Kenya',
+    thumb:'kenya/SAM_4071.jpeg',
+    aspect:'4/3', maxW:50, ml:44,
+    imgs:["kenya/SAM_4071.jpeg","kenya/SAM_4083.jpeg","kenya/SAM_4129.jpeg","kenya/SAM_4176.jpeg","kenya/SAM_4356.jpeg","kenya/SAM_4360.jpeg","kenya/SAM_4373.jpeg","kenya/SAM_4376.jpeg","kenya/SAM_4391.jpeg","kenya/SAM_4393.jpeg","kenya/SAM_4411.jpeg","kenya/SAM_4416.jpeg","kenya/SAM_4443.jpeg","kenya/SAM_4455.jpeg","kenya/SAM_4460.jpeg","kenya/SAM_4464.jpeg","kenya/SAM_4467.jpeg","kenya/SAM_4471.jpeg","kenya/SAM_4473.jpeg","kenya/SAM_4481.jpeg","kenya/SAM_4490.jpeg","kenya/SAM_4491.jpeg","kenya/SAM_4492.jpeg","kenya/SAM_4548.jpeg","kenya/SAM_4587.jpeg","kenya/SAM_4633.jpeg","kenya/SAM_4648.jpeg","kenya/SAM_4658.jpeg","kenya/SAM_4670.jpeg","kenya/SAM_4679.jpeg","kenya/SAM_4695.jpeg","kenya/SAM_4700.jpeg","kenya/SAM_4701.jpeg","kenya/SAM_4705.jpeg","kenya/SAM_4707.jpeg","kenya/SAM_4721.jpeg","kenya/SAM_4725.jpeg","kenya/SAM_4729.jpeg","kenya/SAM_4735.jpeg","kenya/SAM_4737.jpeg","kenya/SAM_4761.jpeg","kenya/SAM_4766.jpeg","kenya/SAM_4777.jpeg","kenya/SAM_4782.jpeg","kenya/SAM_4791.jpeg","kenya/SAM_4803.jpeg","kenya/SAM_4805.jpeg","kenya/SAM_4806.jpeg","kenya/SAM_4809.jpeg","kenya/SAM_4825.jpeg","kenya/SAM_4830.jpeg","kenya/SAM_4834.jpeg","kenya/SAM_4836.jpeg","kenya/SAM_4838.jpeg","kenya/SAM_4851.jpeg","kenya/SAM_4852.jpeg","kenya/SAM_4856.jpeg","kenya/SAM_4863.jpeg","kenya/SAM_4875.jpeg","kenya/SAM_4885.jpeg","kenya/SAM_4890.jpeg","kenya/SAM_4944.jpeg","kenya/SAM_4978.jpeg","kenya/SAM_5020.jpeg","kenya/SAM_5025.jpeg","kenya/SAM_5031.jpeg","kenya/SAM_5042.jpeg","kenya/SAM_5059.jpeg","kenya/SAM_5070.jpeg","kenya/SAM_5082.jpeg","kenya/SAM_5086.jpeg","kenya/SAM_5087.jpeg","kenya/SAM_5097.jpeg","kenya/SAM_5112.jpeg","kenya/SAM_5123.jpeg","kenya/SAM_5126.jpeg","kenya/SAM_5155.jpeg","kenya/SAM_5163.jpeg","kenya/SAM_5171.jpeg","kenya/SAM_5176.jpeg","kenya/SAM_5180.jpeg","kenya/SAM_5185.jpeg","kenya/SAM_5193.jpeg","kenya/SAM_5203.jpeg","kenya/SAM_5218.jpeg","kenya/SAM_5227.jpeg","kenya/SAM_5228.jpeg","kenya/SAM_5235.jpeg","kenya/SAM_5239.jpeg","kenya/SAM_5244.jpeg","kenya/SAM_5245.jpeg","kenya/SAM_5249.jpeg","kenya/SAM_5250.jpeg","kenya/SAM_5251.jpeg","kenya/SAM_5261.jpeg","kenya/SAM_5266.jpeg","kenya/SAM_5272.jpeg","kenya/SAM_5274.jpeg","kenya/SAM_5278.jpeg","kenya/SAM_5280.jpeg","kenya/SAM_5282.jpeg","kenya/SAM_5287.jpeg","kenya/SAM_5297.jpeg","kenya/SAM_5556.jpeg","kenya/SAM_5569.jpeg","kenya/SAM_6233.jpeg","kenya/SAM_6235.jpeg","kenya/SAM_6238.jpeg","kenya/SAM_6244.jpeg","kenya/SAM_6248.jpeg","kenya/SAM_6259.jpeg","kenya/SAM_6279.jpeg","kenya/SAM_6292.jpeg","kenya/SAM_6295.jpeg","kenya/SAM_6306.jpeg","kenya/SAM_6314.jpeg","kenya/SAM_6317.jpeg","kenya/SAM_6320.jpeg","kenya/SAM_6322.jpeg","kenya/SAM_6332.jpeg","kenya/SAM_6342.jpeg","kenya/SAM_6348.jpeg"] },
+
+  { key:'istanbul',
+    label:'Istanbul',
+    thumb:'istanbul/istanbulmain.jpg',
+    aspect:'2/3', maxW:24, ml:22,
+    imgs:["istanbul/istanbul1.jpg","istanbul/istanbul2.jpg","istanbul/istanbul3.jpg","istanbul/istanbul4.jpg","istanbul/istanbul5.jpg","istanbul/istanbul6.jpg","istanbul/istanbul7.jpg","istanbul/istanbul8.jpg","istanbul/istanbul9.jpg","istanbul/istanbul10.jpg","istanbul/istanbul11.jpg","istanbul/istanbul12.jpg","istanbul/istanbul13.jpg","istanbul/istanbul14.jpg","istanbul/istanbul15.jpg","istanbul/istanbul16.jpg","istanbul/istanbul17.jpg","istanbul/istanbul18.jpg","istanbul/istanbul19.jpg","istanbul/istanbul20.jpg","istanbul/istanbul21.jpg","istanbul/istanbul22.jpg","istanbul/istanbul23.jpg","istanbul/istanbul24.jpg","istanbul/istanbul25.jpg","istanbul/istanbul26.jpg"] },
+
+  { key:'bulgaria',
+    label:'Bulgaria',
+    thumb:'bulgaria/bulgariamain.jpg',
+    aspect:'3/2', maxW:38, ml:58,
+    imgs:["bulgaria/bulgaria1.jpg","bulgaria/bulgaria2.jpg","bulgaria/bulgaria3.jpg","bulgaria/bulgaria4.jpg","bulgaria/bulgaria5.jpg","bulgaria/bulgaria6.jpg","bulgaria/bulgaria7.jpg","bulgaria/bulgaria8.jpg","bulgaria/bulgaria9.jpg","bulgaria/bulgaria10.jpg","bulgaria/bulgaria11.jpg","bulgaria/bulgaria12.jpg","bulgaria/bulgaria13.jpg","bulgaria/bulgaria14.jpg","bulgaria/bulgaria15.jpg","bulgaria/bulgaria16.jpg","bulgaria/bulgaria17.jpg","bulgaria/bulgaria18.jpg","bulgaria/bulgaria19.jpg","bulgaria/bulgaria20.jpg","bulgaria/bulgaria21.jpg","bulgaria/bulgaria22.jpg","bulgaria/bulgaria23.jpg","bulgaria/bulgaria24.jpg","bulgaria/bulgaria25.jpg","bulgaria/bulgaria26.jpg","bulgaria/bulgaria27.jpg","bulgaria/bulgaria28.jpg","bulgaria/bulgaria29.jpg","bulgaria/bulgaria30.jpg","bulgaria/bulgaria31.jpg","bulgaria/bulgaria32.jpg","bulgaria/bulgaria33.jpg","bulgaria/bulgaria34.jpg","bulgaria/bulgaria35.jpg","bulgaria/bulgaria36.jpg","bulgaria/bulgaria37.jpg","bulgaria/bulgaria38.jpg","bulgaria/bulgaria39.jpg"] },
+
+  { key:'portraits',
+    label:'portraits',
+    thumb:'portraits/R0000942.jpeg',
+    aspect:'2/3', maxW:26, ml:68,
+    imgs:["portraits/R0000942.jpeg","portraits/R0001032.jpeg","portraits/R0002527.jpeg","portraits/R0002572.jpeg","portraits/R0002728.jpeg","portraits/SAM_0314.jpeg","portraits/SAM_0393.jpeg","portraits/SAM_0766.jpeg","portraits/SAM_4637.jpeg"] },
+
+  { key:'moroccannights',
+    label:'Moroccan Nights',
+    thumb:'moroccannights/moroccannightsmain-min.jpg',
+    aspect:'2/3', maxW:22, ml:10,
+    imgs:["moroccannights/moroccannights1.jpg","moroccannights/moroccannights2.jpg","moroccannights/moroccannights3.jpg","moroccannights/moroccannights4.jpg","moroccannights/moroccannights5.jpg","moroccannights/moroccannights6.jpg","moroccannights/moroccannights7.jpg","moroccannights/moroccannights8.jpg","moroccannights/moroccannights9.jpg","moroccannights/moroccannights10.jpg","moroccannights/moroccannights11.jpg","moroccannights/moroccannights12.jpg","moroccannights/moroccannights13.jpg","moroccannights/moroccannights14.jpg","moroccannights/moroccannights15.jpg","moroccannights/moroccannights16.jpg","moroccannights/moroccannights17-min.jpg","moroccannights/moroccannights18-min.jpg","moroccannights/moroccannights19-min.jpg","moroccannights/moroccannights20-min.jpg","moroccannights/moroccannights21-min.jpg","moroccannights/moroccannights22-min.jpg","moroccannights/moroccannights23-min.jpg","moroccannights/moroccannights24-min.jpg","moroccannights/moroccannights25-min.jpg","moroccannights/moroccannights26-min.jpg","moroccannights/moroccannights27-min.jpg","moroccannights/moroccannights28-min.jpg","moroccannights/moroccannights29-min.jpg","moroccannights/moroccannights30-min.jpg","moroccannights/moroccannights31-min.jpg","moroccannights/moroccannights32-min.jpg","moroccannights/moroccannights33-min.jpg"] },
+
+  { key:'croatia',
+    label:'Croatia',
+    thumb:'croatia/croatiamain.jpg',
+    aspect:'16/9', maxW:65, ml:18,
+    imgs:["croatia/croatia1.jpg","croatia/croatia2.jpg","croatia/croatia3.jpg","croatia/croatia4.jpg","croatia/croatia5.jpg","croatia/croatia6.jpg","croatia/croatia07.jpg","croatia/croatia08.jpg","croatia/croatia09.jpg","croatia/croatia10.jpg","croatia/croatia11.jpg","croatia/croatia12.jpg","croatia/croatia13.jpg","croatia/croatia14.jpg","croatia/croatia15.jpg","croatia/croatia16.jpg","croatia/croatia17.jpg","croatia/croatia18.jpg","croatia/croatia19.jpg","croatia/croatia20.jpg","croatia/croatia21.jpg","croatia/croatia22.jpg","croatia/croatia23.jpg","croatia/croatia24.jpg","croatia/croatia25.jpg","croatia/croatia26.jpg","croatia/croatia27.jpg","croatia/croatia28.jpg","croatia/croatia29.jpg","croatia/croatia30.jpg","croatia/croatia31.jpg","croatia/croatia32.jpg","croatia/croatia33.jpg","croatia/croatia35.jpg","croatia/croatia36.jpg","croatia/croatia37.jpg","croatia/croatia38.jpg","croatia/croatia39.jpg","croatia/croatia40.jpg","croatia/croatia41.jpg","croatia/croatia42.jpg","croatia/croatia43.jpg","croatia/croatia44.jpg","croatia/croatia45.jpg","croatia/croatia47.jpg","croatia/croatia48.jpg","croatia/croatia49.jpg","croatia/croatia50.jpg","croatia/croatia51.jpg","croatia/croatia52.jpg","croatia/croatia53.jpg","croatia/croatia54.jpg","croatia/croatia55.jpg","croatia/croatia56.jpg","croatia/croatia57.jpg","croatia/croatia58.jpg"] },
+
+  { key:'gardiensdelart',
+    label:"gardiens de l\u2019art",
+    thumb:'gardiensdelart/gardiensmain.jpg',
+    aspect:'1/1', maxW:20, ml:72,
+    imgs:["gardiensdelart/gardiensdelart1.jpg","gardiensdelart/gardiensdelart2.jpg","gardiensdelart/gardiensdelart3.jpg","gardiensdelart/gardiensdelart4.jpg","gardiensdelart/gardiensdelart5.jpg","gardiensdelart/gardiensdelart6.jpg","gardiensdelart/gardiensdelart7.jpg","gardiensdelart/gardiensdelart8.jpg","gardiensdelart/gardiensdelart9.jpg"] },
+
+  { key:'svanetia',
+    label:'Georgia \u2014 Svanetia',
+    thumb:'sakartvelo/SAM_1861.jpeg',
+    aspect:'4/3', maxW:46, ml:38,
+    imgs:["sakartvelo/SAM_1861.jpeg","sakartvelo/SAM_1939.jpeg","sakartvelo/SAM_1987.jpeg","sakartvelo/SAM_2431.jpeg","sakartvelo/SAM_3147.jpeg","sakartvelo/SAM_3217.jpeg","sakartvelo/SAM_4673.jpeg","sakartvelo/SAM_4994.jpeg","sakartvelo/SAM_5432.jpeg","sakartvelo/SAM_5744.jpeg"] },
+
+  { key:'visionindirecte',
+    label:'vision indirecte',
+    thumb:'visionindirecte/visionmain.jpg',
+    aspect:'1/1', maxW:28, ml:62,
+    imgs:["visionindirecte/visionindirecte1.jpg","visionindirecte/visionindirecte2.jpg","visionindirecte/visionindirecte3.jpg","visionindirecte/visionindirecte4.jpg","visionindirecte/visionindirecte5.jpg","visionindirecte/visionindirecte6.jpg","visionindirecte/visionindirecte7.jpg","visionindirecte/visionindirecte8.jpg","visionindirecte/visionindirecte9.jpg","visionindirecte/visionindirecte10.jpg","visionindirecte/visionindirecte11.jpg"] },
+
+  { key:'london',
+    label:'London',
+    thumb:'london/londonmain.jpg',
+    aspect:'2/3', maxW:22, ml:5,
+    imgs:["london/london1.jpg","london/london2.jpg","london/london3.jpg","london/london4.jpg","london/london5.jpg","london/london6.jpg","london/london7.jpg","london/london8.jpg","london/london9.jpg","london/london10.jpg","london/london11.jpg"] },
+
+  { key:'armenia',
+    label:'Armenian churches',
+    thumb:'armenia/SAM_6697.jpeg',
+    aspect:'3/2', maxW:52, ml:32,
+    imgs:["armenia/SAM_6697.jpeg","armenia/SAM_6790.jpeg","armenia/SAM_6796.jpeg","armenia/SAM_7062.jpeg","armenia/SAM_7423.jpeg","armenia/SAM_7705.jpeg","armenia/SAM_7727.jpeg","armenia/SAM_8632.jpeg","armenia/SAM_8820.jpeg","armenia/SAM_9340.jpeg","armenia/SAM_9505.jpeg","armenia/SAM_9551.jpeg","armenia/SAM_9565.jpeg","armenia/SAM_9583.jpeg","armenia/SAM_9599.jpeg","armenia/SAM_9632.jpeg","armenia/SAM_9811.jpeg","armenia/SAM_9831.jpeg","armenia/SAM_9847.jpeg"] },
+
+  { key:'insidebollards',
+    label:'inside bollards',
+    thumb:'insidebollards/bollardsmain.jpg',
+    aspect:'2/3', maxW:20, ml:72,
+    imgs:["insidebollards/insidebollards1.jpg","insidebollards/insidebollards2.jpg","insidebollards/insidebollards3.jpg","insidebollards/insidebollards4.jpg","insidebollards/insidebollards5.jpg","insidebollards/insidebollards6.jpg","insidebollards/insidebollards7.jpg","insidebollards/insidebollards8.jpg","insidebollards/insidebollards9.jpg","insidebollards/insidebollards10.jpg","insidebollards/insidebollards11.jpg","insidebollards/insidebollards12.jpg","insidebollards/insidebollards13.jpg"] },
+
+  { key:'polyptychum',
+    label:'polyptychum\u00a0: theatrum mundi',
+    thumb:'polyptychum/polyptychummain.jpg',
+    aspect:'1/1', maxW:16, ml:45,
+    imgs:["polyptychum/polyptychum1.jpg","polyptychum/polyptychum2.jpg","polyptychum/polyptychum3.jpg","polyptychum/polyptychum4.jpg"] },
+
+  { key:'flora',
+    label:'flora',
+    thumb:'flora/floramain.jpg',
+    aspect:'4/3', maxW:36, ml:8,
+    imgs:["flora/flora1.jpg","flora/flora2.jpg","flora/flora3.jpg","flora/flora4.jpg","flora/flora5.jpg","flora/flora6.jpg","flora/flora7.jpg","flora/flora8.jpg"] },
+
+  { key:'fragments',
+    label:'fragments',
+    thumb:'fragments/fragmentsmain.jpg',
+    aspect:'16/9', maxW:58, ml:28,
+    imgs:["fragments/fragments1.jpg","fragments/fragments2.jpg","fragments/fragments3.jpg"] },
+];
+
+// ════════════════════════════════════════════════
+// BUILD GRID
+// ════════════════════════════════════════════════
+const grid = document.getElementById('view-work');
+
+PROJECTS.forEach(p => {
+  const card = document.createElement('div');
+  const empty = p.imgs.length === 0;
+  card.className = 'card' + (empty ? ' empty' : '');
+  card.style.maxWidth  = (p.maxW || 40) + '%';
+  card.style.marginLeft = (p.ml  || 5)  + '%';
+
+  if (!empty) {
+    const img = document.createElement('img');
+    img.src     = p.thumb || p.imgs[0];
+    img.alt     = p.label;
+    img.loading = 'lazy';
+    if (p.aspect) img.style.aspectRatio = p.aspect;
+    card.appendChild(img);
+    card.addEventListener('click', () => openProject(p.key));
+  } else {
+    const box = document.createElement('div');
+    box.className = 'empty-box';
+    box.innerHTML = `<small>photos coming soon</small>`;
+    card.appendChild(box);
+  }
+
+  const lbl = document.createElement('div');
+  lbl.className = 'card-label';
+  lbl.innerHTML = `<span>${p.label}</span>`;
+  card.appendChild(lbl);
+  grid.appendChild(card);
+});
+
+// ════════════════════════════════════════════════
+// VIEW SWITCHING
+// ════════════════════════════════════════════════
+function gv(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('on'));
+  document.getElementById('view-' + name).classList.add('on');
+  document.querySelectorAll('#nav a[data-v]').forEach(a => {
+    a.classList.toggle('on', a.dataset.v === name);
+  });
+}
+document.querySelector('[data-v="work"]').classList.add('on');
+
+// ════════════════════════════════════════════════
+// PROJECT VIEWER
+// ════════════════════════════════════════════════
+let curProj = null;
+let curIdx  = 0;
+let busy    = false;
+
+const vimg    = document.getElementById('vimg');
+const vspn    = document.getElementById('vspinner');
+const vctr    = document.getElementById('viewer-counter');
+const vtitle  = document.getElementById('viewer-title');
+
+function openProject(key) {
+  curProj = PROJECTS.find(p => p.key === key);
+  if (!curProj || curProj.imgs.length === 0) return;
+  curIdx = 0;
+  vtitle.textContent = curProj.label;
+  gv('viewer');
+  showImg(0, false);
+  preload(0);
+}
+
+function showImg(idx, anim) {
+  if (!curProj) return;
+  const imgs = curProj.imgs;
+  if (idx < 0)            idx = imgs.length - 1;
+  if (idx >= imgs.length) idx = 0;
+  curIdx = idx;
+  vctr.textContent =
+    String(idx + 1).padStart(2,'0') + ' \u2002/\u2002 ' +
+    String(imgs.length).padStart(2,'0');
+
+  const src = imgs[idx];
+  if (!anim) { doLoad(src); return; }
+  busy = true;
+  vimg.classList.add('fade');
+  setTimeout(() => doLoad(src), 130);
+}
+
+function doLoad(src) {
+  vspn.classList.add('on');
+  vimg.classList.remove('vis','fade');
+  const t = new Image();
+  t.onload = () => {
+    vimg.src = src;
+    vimg.classList.add('vis');
+    vspn.classList.remove('on');
+    busy = false;
+  };
+  t.onerror = () => { vspn.classList.remove('on'); busy = false; };
+  t.src = src;
+}
+
+function preload(from) {
+  if (!curProj) return;
+  const imgs = curProj.imgs;
+  for (let i = 1; i <= 4; i++) (new Image()).src = imgs[(from + i) % imgs.length];
+}
+
+function navPrev() {
+  if (!curProj || busy) return;
+  showImg(curIdx - 1, true); preload(curIdx);
+}
+function navNext() {
+  if (!curProj || busy) return;
+  showImg(curIdx + 1, true); preload(curIdx);
+}
+
+document.getElementById('hit-l').addEventListener('click', navPrev);
+document.getElementById('hit-r').addEventListener('click', navNext);
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft')  navPrev();
+  if (e.key === 'ArrowRight') navNext();
+});
+
+let tx = 0;
+const vbody = document.getElementById('viewer-body');
+vbody.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+vbody.addEventListener('touchend',   e => {
+  const dx = e.changedTouches[0].clientX - tx;
+  if (Math.abs(dx) > 44) dx < 0 ? navNext() : navPrev();
+}, {passive:true});
+
+// ════════════════════════════════════════════════
+// MUSIC
+// ════════════════════════════════════════════════
+const musicBtn = document.getElementById('music-btn');
+const audio    = document.getElementById('audio');
+musicBtn.addEventListener('click', () => {
+  if (audio.paused) {
+    audio.play().then(() => {
+      musicBtn.innerHTML = '&#9646;&#9646; music';
+      musicBtn.classList.add('on');
+    }).catch(()=>{});
+  } else {
+    audio.pause();
+    musicBtn.innerHTML = '&#9654; music';
+    musicBtn.classList.remove('on');
+  }
+});
+
+// ════════════════════════════════════════════════
+// SPLASH — floating enter button
+// ════════════════════════════════════════════════
+const _btn    = document.getElementById('enter-btn');
+const _splash = document.getElementById('splash');
+const _site   = document.getElementById('site');
+let _x = 80, _y = 40, _vx = 1.4, _vy = 1.1;
+let _raf;
+
+function _move() {
+  const pw = _splash.clientWidth  - _btn.offsetWidth;
+  const ph = _splash.clientHeight - _btn.offsetHeight;
+  _x += _vx; _y += _vy;
+  if (_x <= 0 || _x >= pw) { _vx = -_vx; _x = Math.max(0, Math.min(_x, pw)); }
+  if (_y <= 0 || _y >= ph) { _vy = -_vy; _y = Math.max(0, Math.min(_y, ph)); }
+  _btn.style.left = _x + 'px';
+  _btn.style.top  = _y + 'px';
+  _raf = requestAnimationFrame(_move);
+}
+_move();
+
+function enter() {
+  cancelAnimationFrame(_raf);
+  _splash.classList.add('out');
+  _site.classList.add('on');
+  setTimeout(() => { _splash.style.display = 'none'; }, 900);
+}
+
+function goSplash() {
+  cancelAnimationFrame(_raf);
+  _splash.style.display = '';
+  _splash.classList.remove('out');
+  _site.classList.remove('on');
+  gv('work');
+  // small delay so layout settles before restarting bounce
+  setTimeout(() => { _x = 80; _y = 40; _move(); }, 50);
+}
+
+_btn.addEventListener('mousedown',   e => { e.preventDefault(); enter(); });
+_btn.addEventListener('touchstart', e => { e.preventDefault(); enter(); }, {passive:false});
+document.addEventListener('keydown', e => {
+  if ((e.key === 'Enter' || e.key === ' ') && !_site.classList.contains('on')) {
+    e.preventDefault(); enter();
+  }
+});
+</script>
 </body>
 </html>
